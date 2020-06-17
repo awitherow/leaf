@@ -15,13 +15,30 @@ const months = [
   "December",
 ];
 
-const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const days = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 
-export const calculateDay = (d: Date, daysInPast: number) => new Date(d.setDate(d.getDate() + daysInPast));
+export const calculateDay = (d: Date, daysInPast: number) =>
+  new Date(d.setDate(d.getDate() + daysInPast));
 
 export const getFormattedDateString = (d: Date) => {
   const month = months[d.getMonth()];
   const dayName = days[d.getDay()];
   const day = d.getDate();
   return `${dayName}, ${month} ${day}`;
+};
+
+export const getStorageDateString = (d: Date = new Date()) => {
+  var day = d.getDate();
+  var month = d.getMonth() + 1;
+  var year = d.getFullYear();
+
+  return `${day}${month}${year}`;
 };
