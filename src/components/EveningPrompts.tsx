@@ -6,6 +6,7 @@ import Panel from "./Panel";
 
 import { EVENING_PROMPTS } from "../helpers/strings";
 import { savePrompt, getEveningAnswersFromStorage } from "../helpers/storage";
+import { datesAreOnSameDay } from "../helpers/dates";
 
 type EveningPromptsPropTypes = {
   day: Date;
@@ -15,15 +16,8 @@ export default function EveningPrompts({ day }: EveningPromptsPropTypes) {
   const [prompts, setPrompts] = useState(null);
 
   useEffect(() => {
-    if (!prompts) {
-      async function getStoredPrompts() {
-        const storedPrompts = await getEveningAnswersFromStorage(day);
-        setPrompts(storedPrompts);
-      }
-
-      getStoredPrompts();
-    }
-  }, []);
+    getEveningAnswersFromStorage(day).then((data) => setPrompts(data));
+  }, [day]);
 
   const PromptComponents = [];
 
@@ -37,6 +31,7 @@ export default function EveningPrompts({ day }: EveningPromptsPropTypes) {
           {EVENING_PROMPTS[key].description}
         </Text>
         <TextInput
+          editable={datesAreOnSameDay(new Date(), day)}
           multiline
           style={styles.input}
           value={prompts ? prompts[key] : ""}

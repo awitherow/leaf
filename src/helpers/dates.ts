@@ -42,3 +42,17 @@ export const getStorageDateString = (d: Date = new Date()) => {
 
   return `${day}${month}${year}`;
 };
+
+export const datesAreOnSameDay = (first, second) => {
+  if (!first || !second) {
+    return false;
+  }
+
+  return (
+    first.getFullYear() === second.getFullYear() &&
+    first.getMonth() === second.getMonth() &&
+    first.getDate() === second.getDate()
+  );
+};
+
+export const getDay = (d: Date) => d.getDate();

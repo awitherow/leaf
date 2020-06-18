@@ -14,13 +14,15 @@ import DismissKeyboard from "./components/DismissKeyboard";
 import { getFormattedDateString, calculateDay } from "./helpers/dates";
 
 export default function Main() {
-  AsyncStorage.getAllKeys((err, keys) => {
-    AsyncStorage.multiGet(keys, (error, stores) => {
-      stores.map((result, i, store) =>
-        console.log({ [store[i][0]]: store[i][1] })
-      );
+  if (__DEV__) {
+    AsyncStorage.getAllKeys((err, keys) => {
+      AsyncStorage.multiGet(keys, (error, stores) => {
+        stores.map((result, i, store) =>
+          console.log({ [store[i][0]]: store[i][1] })
+        );
+      });
     });
-  });
+  }
 
   const [daysFromCurrentDate, setDaysFromCurrentDate] = useState(0);
 
@@ -36,11 +38,7 @@ export default function Main() {
           setDay={setDaysFromCurrentDate}
           daysFrom={daysFromCurrentDate}
         />
-        <KeyboardAvoidingView
-          style={{ flex: 1, flexDirection: "column", justifyContent: "center" }}
-          behavior="padding"
-          enabled
-        >
+        <KeyboardAvoidingView behavior="padding" enabled>
           <ScrollView>
             <EveningPrompts day={daySelected} />
           </ScrollView>

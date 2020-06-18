@@ -20,27 +20,15 @@ export const savePrompt = async (key, text) => {
   }
 };
 
-export const getEveningAnswersFromStorage = (d: Date) => {
+export const getEveningAnswersFromStorage = async (d: Date) => {
   const eveningAnswers = {};
 
-  EVENING_PROMPTS_KEYS.map(async (key) => {
-    try {
-      const result = await AsyncStorage.getItem(
-        `@leaf:${getStorageDateString(d)}:${key}`
-      );
+  const storeKeys = EVENING_PROMPTS_KEYS.map(
+    (key) => `@leaf:${getStorageDateString(d)}:${key}`
+  );
 
-      eveningAnswers[key] = result ? result : "";
-    } catch (error) {
-      Alert.alert(
-        "Error Loading prompts",
-        `There was an error loading prompts for ${getFormattedDateString(
-          d
-        )} your ${d}, sorry...`,
-        [{ text: "OK" }],
-        { cancelable: false }
-      );
-    }
-  });
+  const stores = await AsyncStorage.multiGet(storeKeys);
+  stores.map(([key, value]) => (eveningAnswers[key.split(":")[2]] = value));
 
   return eveningAnswers;
 };

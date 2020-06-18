@@ -9,14 +9,14 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
-export default function Panel({ title, children }) {
+export default function Panel({ title, children, defaultExpanded = true }) {
   useEffect(() => {
     if (Platform.OS === "android") {
       UIManager.setLayoutAnimationEnabledExperimental(true);
     }
   }, []);
 
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(defaultExpanded);
 
   const changeLayout = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
