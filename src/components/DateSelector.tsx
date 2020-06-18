@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Dimensions,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 type DateSelectorPropTypes = {
   currentDay: string;
@@ -23,15 +23,15 @@ export default function DateSelector({
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => setDay(daysFrom - 1)}>
-        <Ionicons name="ios-arrow-back" size={38} color="black" />
+        <AntDesign name="left" size={38} color="black" />
       </TouchableOpacity>
       <Text style={styles.dateText}>{currentDay}</Text>
       <TouchableOpacity
         disabled={forwardDisabled}
         onPress={() => setDay(daysFrom + 1)}
       >
-        <Ionicons
-          name="ios-arrow-forward"
+        <AntDesign
+          name="right"
           size={38}
           color={forwardDisabled ? "grey" : "black"}
         />

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 
+import Panel from "./Panel";
+
 import { EVENING_PROMPTS } from "../helpers/strings";
 import { savePrompt, getEveningAnswersFromStorage } from "../helpers/storage";
 
@@ -25,8 +27,6 @@ export default function EveningPrompts({ day }: EveningPromptsPropTypes) {
 
   const PromptComponents = [];
 
-  let firstPromptMapped = false;
-
   for (let [key, value] of Object.entries(EVENING_PROMPTS)) {
     PromptComponents.push(
       <View key={key} style={styles.prompt}>
@@ -38,7 +38,6 @@ export default function EveningPrompts({ day }: EveningPromptsPropTypes) {
         </Text>
         <TextInput
           multiline
-          autoFocus={!firstPromptMapped}
           style={styles.input}
           value={prompts ? prompts[key] : ""}
           onBlur={(e) => savePrompt(key, prompts[key])}
@@ -51,24 +50,26 @@ export default function EveningPrompts({ day }: EveningPromptsPropTypes) {
         />
       </View>
     );
-
-    firstPromptMapped = true;
   }
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <FontAwesome name="moon-o" size={24} color="black" />
-        <Text style={styles.headerText}>Evening Prompts</Text>
-      </View>
-
-      {!prompts ? (
-        <View>
-          <Text>Loading...</Text>
-        </View>
-      ) : (
-        PromptComponents.map((Component) => Component)
-      )}
+      <Panel
+        title={
+          <View style={styles.header}>
+            <FontAwesome name="moon-o" size={24} color="black" />
+            <Text style={styles.headerText}>Evening Prompts</Text>
+          </View>
+        }
+      >
+        {!prompts ? (
+          <View>
+            <Text>Loading...</Text>
+          </View>
+        ) : (
+          PromptComponents.map((Component) => Component)
+        )}
+      </Panel>
     </View>
   );
 }
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: "black",
+    borderColor: "rgba(0,0,0,0.5)",
     marginTop: 8,
     fontSize: 16,
     padding: 8,
